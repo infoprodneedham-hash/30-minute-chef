@@ -1,0 +1,6 @@
+# Allow all standard search engines to index the site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://30-minute-chef.vercel.app/sitemap.xml
