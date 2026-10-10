@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 30 Minute Chef | Free Fast & Delicious Recipes</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PapaParse for parsing Google Sheet CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Smooth sliding transitions */
+    .drawer-transition {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="bg-amber-50/40 text-stone-800 antialiased min-h-screen flex flex-col font-sans pb-24">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-amber-500 text-white p-2.5 rounded-xl shadow-xs">
+          <i data-lucide="utensils" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-black tracking-tight text-stone-900 leading-none">
+            The 30 Minute Chef
+          </h1>
+          <p class="text-xs text-amber-700 font-medium mt-1">Quick, flavourful meals in half an hour or less</p>
+        </div>
+      </div>
+
+      <!-- Free badge & right drawer toggle -->
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 100% Free Database
+        </span>
+        <button 
+          id="toggleShareDrawer" 
+          aria-label="Open Social Share" 
+          class="flex items-center gap-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium text-sm px-3.5 py-2 rounded-lg transition"
+        >
+          <i data-lucide="share-2" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Share</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO & CONTROLS ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <div class="text-center max-w-2xl mx-auto mb-8">
+      <div class="inline-block sm:hidden mb-2 px-3 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+        100% Free Recipe Access
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+        Dinner solved in under 30 minutes.
+      </h2>
+      <p class="text-stone-600 mt-2 text-sm sm:text-base">
+        Select tags to filter, pick your party size (1–6 people), and copy your shopping list with a single click.
+      </p>
+
+      <!-- Search Input -->
+      <div class="mt-6 relative max-w-md mx-auto">
+        <i data-lucide="search" class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"></i>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search by recipe title or ingredient..." 
+          class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white shadow-xs text-sm"
+        />
+      </div>
+    </div>
+
+    <!-- Tag Bar Filter -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-8" id="tagFilters">
+      <button class="tag-btn active-tag px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-amber-500 text-white shadow-xs" data-tag="All">
+        All Recipes
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Chicken">
+        🍗 Chicken
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Beef">
+        🥩 Beef
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Fish">
+        🐟 Fish
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Vegetarian">
+        🥗 Vegetarian
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Pasta">
+        🍝 Pasta
+      </button>
+      <button class="tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400" data-tag="Rice">
+        🍚 Rice
+      </button>
+    </div>
+
+    <!-- Recipe Cards Grid -->
+    <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Loading skeletons initially -->
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
+    </div>
+  </main>
+
+  <!-- ================= RECIPE DETAIL MODAL ================= -->
+  <div id="recipeModal" class="fixed inset-0 bg-black/60 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative">
+      <!-- Modal Header Image -->
+      <div class="relative h-48 sm:h-64 bg-stone-100 flex-shrink-0">
+        <img id="modalImage" src="" alt="Recipe photo" class="w-full h-full object-cover">
+        <button id="closeModal" class="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div class="p-6 overflow-y-auto space-y-6">
+        <div>
+          <div id="modalTags" class="flex flex-wrap gap-1.5 mb-2"></div>
+          <h3 id="modalTitle" class="text-2xl font-bold text-stone-900"></h3>
+          <div class="flex items-center gap-4 text-stone-500 text-sm mt-1">
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-amber-500"></i> <span id="modalPrepTime"></span></span>
+            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Under 30 mins</span>
+          </div>
+        </div>
+
+        <!-- Serving Multiplier Control -->
+        <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200/60 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-amber-900 block">Number of Recipients:</label>
+            <span class="text-xs text-stone-500">Scale ingredients automatically</span>
+          </div>
+          <div class="flex items-center gap-1 bg-white p-1 rounded-lg border border-amber-200">
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="1">1</button>
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="2">2</button>
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="3">3</button>
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="4">4</button>
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="5">5</button>
+            <button class="serving-btn px-3 py-1 rounded text-sm font-semibold transition" data-servings="6">6</button>
+          </div>
+        </div>
+
+        <!-- Ingredients with 1-Click Copy -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-bold text-stone-900 text-lg flex items-center gap-2">
+              <i data-lucide="shopping-basket" class="w-5 h-5 text-amber-600"></i> Ingredients List
+            </h4>
+            <button 
+              id="copyIngredientsBtn" 
+              class="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg shadow-xs transition"
+            >
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span>Copy Shopping List</span>
+            </button>
+          </div>
+          <ul id="modalIngredients" class="space-y-1.5 text-sm text-stone-700 bg-stone-50 p-4 rounded-xl border border-stone-200"></ul>
+        </div>
+
+        <!-- Instructions -->
+        <div>
+          <h4 class="font-bold text-stone-900 text-lg mb-2 flex items-center gap-2">
+            <i data-lucide="flame" class="w-5 h-5 text-amber-600"></i> Directions
+          </h4>
+          <div id="modalInstructions" class="text-sm text-stone-700 leading-relaxed space-y-2 whitespace-pre-line bg-stone-50 p-4 rounded-xl border border-stone-200"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= RIGHT SOCIAL SHARE DRAWER ================= -->
+  <div 
+    id="shareDrawerBackdrop" 
+    class="fixed inset-0 bg-black/40 z-40 hidden backdrop-blur-xs transition-opacity"
+  ></div>
+  <aside 
+    id="shareDrawer" 
+    class="fixed top-0 right-0 h-full w-80 bg-white border-l border-stone-200 z-50 shadow-2xl p-6 drawer-transition translate-x-full flex flex-col justify-between"
+  >
+    <div>
+      <div class="flex items-center justify-between pb-4 border-b border-stone-200">
+        <h3 class="font-bold text-stone-900 text-lg flex items-center gap-2">
+          <i data-lucide="share-2" class="w-5 h-5 text-amber-500"></i> Share Database
+        </h3>
+        <button id="closeShareDrawer" class="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-stone-500 mt-4 leading-relaxed">
+        Know someone who needs easy 30-minute meals? Share this completely free resource with friends and family!
+      </p>
+
+      <div class="space-y-3 mt-6">
+        <!-- Facebook -->
+        <a 
+          href="https://www.facebook.com/sharer/sharer.php?u=https://the30minutechef.com" 
+          target="_blank" 
+          rel="noopener"
+          class="flex items-center gap-3 w-full p-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 transition text-sm font-semibold text-stone-700"
+        >
+          <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">f</div>
+          Share on Facebook
+        </a>
+        <!-- X / Twitter -->
+        <a 
+          href="https://twitter.com/intent/tweet?text=Fast%2C%20delicious%20recipes%20in%2030%20minutes%20or%20less!&url=https://the30minutechef.com" 
+          target="_blank" 
+          rel="noopener"
+          class="flex items-center gap-3 w-full p-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 transition text-sm font-semibold text-stone-700"
+        >
+          <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center font-bold">𝕏</div>
+          Share on X
+        </a>
+        <!-- WhatsApp -->
+        <a 
+          href="https://api.whatsapp.com/send?text=Check%20out%20these%20free%20quick%2030-minute%20recipes:%20https://the30minutechef.com" 
+          target="_blank" 
+          rel="noopener"
+          class="flex items-center gap-3 w-full p-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 transition text-sm font-semibold text-stone-700"
+        >
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center"><i data-lucide="message-circle" class="w-4 h-4"></i></div>
+          Share on WhatsApp
+        </a>
+        <!-- Copy Direct Link -->
+        <button 
+          id="copyAppUrlBtn" 
+          class="flex items-center gap-3 w-full p-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 transition text-sm font-semibold text-stone-700"
+        >
+          <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center"><i data-lucide="link" class="w-4 h-4"></i></div>
+          <span id="copyAppUrlText">Copy Page Link</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="text-[11px] text-stone-400 text-center">
+      The 30 Minute Chef &bull; No subscriptions, always free
+    </div>
+  </aside>
+
+  <!-- ================= BOTTOM SLIDE-OUT AFFILIATE BANNER ================= -->
+  <aside 
+    id="affiliateBanner" 
+    class="fixed bottom-0 left-0 right-0 bg-stone-900 text-white border-t border-stone-800 z-40 p-4 shadow-2xl drawer-transition transform translate-y-0"
+  >
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3 text-center sm:text-left">
+        <div class="hidden sm:flex p-2 bg-amber-500/20 text-amber-400 rounded-xl">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white">
+            Level up your speed cooking with our recommended non-stick chef pans &amp; knives
+          </p>
+          <p class="text-xs text-stone-400">
+            We partner with trusted kitchen brands. As an affiliate, we earn from qualifying purchases at zero extra cost to you.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a 
+          href="https://amazon.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="text-xs bg-amber-500 hover:bg-amber-600 text-stone-900 font-bold px-4 py-2 rounded-lg transition text-center whitespace-nowrap"
+        >
+          View Kitchen Gear
+        </a>
+        <button 
+          id="dismissAffiliateBtn" 
+          class="text-xs border border-stone-700 hover:bg-stone-800 text-stone-400 hover:text-white px-3 py-2 rounded-lg transition whitespace-nowrap flex items-center gap-1"
+          title="Tuck away banner"
+        >
+          <i data-lucide="chevron-down" class="w-4 h-4"></i> Tuck Away
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Small tab button to restore the affiliate banner if tucked away -->
+  <button 
+    id="restoreAffiliateBtn" 
+    class="fixed bottom-2 left-4 bg-stone-900 text-stone-300 hover:text-white text-xs px-3 py-1.5 rounded-full border border-stone-700 shadow-lg z-30 hidden items-center gap-1.5 transition"
+  >
+    <i data-lucide="tag" class="w-3.5 h-3.5 text-amber-400"></i> Recommended Kitchen Gear
+  </button>
+
+  <!-- ================= LOGIC SCRIPT ================= -->
+  <script>
+    /* =====================================================================
+       1. GOOGLE SHEETS CSV CONFIGURATION
+       Paste your published CSV link here:
+       File > Share > Publish to web > CSV > Publish
+       ===================================================================== */
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ14zGs68aC9920W3v1hJVTV2M6p4jPZH8Q6SW0KW7wTNuP5VHhUXsoTCjUzLfd3DnDN_Mt62RAiisk/pub?output=csv";
+
+    // Fallback Mock Data in case CSV fails or is not replaced yet
+    const FALLBACK_RECIPES = [
+      {
+        id: "1",
+        title: "15-Minute Garlic Butter Salmon",
+        prep_time: "15 mins",
+        tags: "Fish, Rice",
+        default_servings: 2,
+        ingredients: "300 g salmon fillets\n2 tbsp butter\n3 cloves garlic (minced)\n1 tbsp fresh lemon juice\n1 cup cooked jasmine rice\n1 pinch salt & black pepper",
+        instructions: "1. Heat butter in a non-stick skillet over medium-high heat.\n2. Season salmon fillets with salt and pepper.\n3. Pan sear salmon skin-side down for 4 minutes, flip and sear for 3 minutes.\n4. Stir in minced garlic and lemon juice during the final minute.\n5. Serve hot over steaming jasmine rice.",
+        image_url: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "2",
+        title: "Creamy Tuscan Garlic Chicken",
+        prep_time: "20 mins",
+        tags: "Chicken, Pasta",
+        default_servings: 4,
+        ingredients: "500 g chicken breast cutlets\n250 g fettuccine pasta\n1 cup heavy cream\n2 cups fresh baby spinach\n0.5 cup sun-dried tomatoes (chopped)\n3 cloves garlic (minced)\n1 tbsp olive oil",
+        instructions: "1. Boil fettuccine in salted water until al dente.\n2. In a skillet, heat olive oil and cook chicken 4-5 mins each side until golden; set aside.\n3. Add garlic, sun-dried tomatoes, and cream into the pan; bring to a light simmer.\n4. Fold in baby spinach until wilted.\n5. Slice chicken, toss pasta through the sauce, and serve immediately.",
+        image_url: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "3",
+        title: "Sizzling 20-Minute Beef & Broccoli Stir-Fry",
+        prep_time: "20 mins",
+        tags: "Beef, Rice",
+        default_servings: 2,
+        ingredients: "350 g flank steak (thinly sliced)\n2 heads broccoli (cut into florets)\n3 tbsp soy sauce\n1 tbsp sesame oil\n1 tbsp cornstarch\n1 tbsp brown sugar\n2 cloves garlic\n1 cup cooked white rice",
+        instructions: "1. Toss sliced beef with cornstarch and 1 tbsp soy sauce.\n2. Sear beef in smoking hot oil for 2 minutes; remove.\n3. Toss broccoli florets in pan with 2 tbsp water; steam for 3 mins.\n4. Stir in brown sugar, remaining soy sauce, sesame oil, and garlic.\n5. Return beef to skillet, coat in sauce, and serve over white rice.",
+        image_url: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "4",
+        title: "Creamy Sundried Tomato & Spinach Penne",
+        prep_time: "18 mins",
+        tags: "Vegetarian, Pasta",
+        default_servings: 2,
+        ingredients: "200 g penne pasta\n0.5 cup sun-dried tomatoes\n3 cups fresh spinach\n1 cup vegetable stock\n0.5 cup cream cheese\n2 cloves garlic\n1 tbsp olive oil",
+        instructions: "1. Cook penne according to package instructions.\n2. Sauté garlic and sun-dried tomatoes in olive oil for 1 minute.\n3. Stir in vegetable broth and cream cheese until smooth and creamy.\n4. Add fresh spinach and cooked penne; toss gently until spinach wilts.",
+        image_url: "https://images.unsplash.com/photo-1621996346565-e3d5d6281788?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    let allRecipes = [];
+    let currentFiltered = [];
+    let activeTag = "All";
+    let activeRecipe = null;
+    let selectedServings = 2;
+
+    // Initialize application
+    async function init() {
+      lucide.createIcons();
+      setupDrawerAndBannerHandlers();
+      setupTagFilters();
+      setupSearch();
+      setupServingButtons();
+      setupCopyHandlers();
+
+      await loadSheetData();
+    }
+
+    // Load CSV from Google Sheets or fallback
+    async function loadSheetData() {
+      try {
+        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        if (!response.ok) throw new Error("Could not fetch remote sheet");
+        const csvText = await response.text();
+
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            if (results.data && results.data.length > 0) {
+              allRecipes = results.data.map((r, i) => ({
+                id: r.id || (i + 1).toString(),
+                title: r.title || "Untitled Recipe",
+                prep_time: r.prep_time || "20 mins",
+                tags: r.tags || "General",
+                default_servings: parseInt(r.default_servings) || 2,
+                ingredients: r.ingredients || "",
+                instructions: r.instructions || "",
+                image_url: r.image_url || "https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=600&q=80"
+              }));
+            } else {
+              allRecipes = FALLBACK_RECIPES;
+            }
+            renderGrid();
+          }
+        });
+      } catch (err) {
+        console.warn("Using sample recipes. Update GOOGLE_SHEET_CSV_URL with your live link.", err);
+        allRecipes = FALLBACK_RECIPES;
+        renderGrid();
+      }
+    }
+
+    // Render Cards
+    function renderGrid() {
+      const grid = document.getElementById("recipeGrid");
+      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+
+      currentFiltered = allRecipes.filter(recipe => {
+        const matchesTag = activeTag === "All" || 
+          recipe.tags.toLowerCase().includes(activeTag.toLowerCase());
+
+        const matchesQuery = !query || 
+          recipe.title.toLowerCase().includes(query) || 
+          recipe.ingredients.toLowerCase().includes(query) ||
+          recipe.tags.toLowerCase().includes(query);
+
+        return matchesTag && matchesQuery;
+      });
+
+      if (currentFiltered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center">
+            <i data-lucide="utensils-crossed" class="w-12 h-12 mx-auto text-stone-300 mb-3"></i>
+            <h3 class="text-base font-bold text-stone-700">No matching recipes found</h3>
+            <p class="text-stone-500 text-xs mt-1">Try toggling another tag or adjusting your search term.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      grid.innerHTML = currentFiltered.map(recipe => {
+        const tagList = recipe.tags.split(",").map(t => t.trim());
+        return `
+          <article class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col group">
+            <div class="h-48 overflow-hidden relative bg-stone-100">
+              <img 
+                src="${recipe.image_url}" 
+                alt="${recipe.title}" 
+                loading="lazy" 
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+              />
+              <span class="absolute top-3 right-3 bg-stone-900/80 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3 text-amber-400"></i> ${recipe.prep_time}
+              </span>
+            </div>
+            
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  ${tagList.map(t => `<span class="bg-amber-100/70 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">${t}</span>`).join("")}
+                </div>
+                <h3 class="font-bold text-stone-900 text-lg group-hover:text-amber-600 transition line-clamp-1">
+                  ${recipe.title}
+                </h3>
+                <p class="text-stone-500 text-xs mt-2 line-clamp-2">
+                  ${recipe.ingredients.replace(/\n/g, ', ')}
+                </p>
+              </div>
+
+              <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
+                <span class="text-xs text-stone-400 font-medium">Default: ${recipe.default_servings} Servings</span>
+                <button 
+                  onclick="openModal('${recipe.id}')" 
+                  class="bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs"
+                >
+                  View &amp; Scale <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      lucide.createIcons();
+    }
+
+    // Modal Display & Ingredient Scaling (1 to 6 people)
+    window.openModal = function(id) {
+      activeRecipe = allRecipes.find(r => r.id === id);
+      if (!activeRecipe) return;
+
+      selectedServings = activeRecipe.default_servings || 2;
+      
+      document.getElementById("modalTitle").innerText = activeRecipe.title;
+      document.getElementById("modalPrepTime").innerText = activeRecipe.prep_time;
+      document.getElementById("modalImage").src = activeRecipe.image_url;
+      document.getElementById("modalInstructions").innerText = activeRecipe.instructions;
+
+      // Render tags
+      const tagsContainer = document.getElementById("modalTags");
+      tagsContainer.innerHTML = activeRecipe.tags.split(",").map(t => 
+        `<span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${t.trim()}</span>`
+      ).join("");
+
+      updateServingButtonsUI();
+      renderScaledIngredients();
+
+      document.getElementById("recipeModal").classList.remove("hidden");
+    };
+
+    function renderScaledIngredients() {
+      if (!activeRecipe) return;
+      const baseServings = activeRecipe.default_servings || 2;
+      const ratio = selectedServings / baseServings;
+
+      const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
+      const ingredientsListEl = document.getElementById("modalIngredients");
+
+      ingredientsListEl.innerHTML = lines.map(line => {
+        // Regex matches quantity numbers (e.g., 2, 2.5, 300) at the start of ingredient lines
+        const match = line.match(/^([\d\.\/]+)\s*(.*)/);
+        if (match) {
+          const rawNum = match[1];
+          const rest = match[2];
+          let val = parseFloat(rawNum);
+          if (!isNaN(val)) {
+            let scaledVal = (val * ratio);
+            // Format cleanly: round to 2 decimals or keep clean integer
+            scaledVal = scaledVal % 1 === 0 ? scaledVal : scaledVal.toFixed(1);
+            return `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span><span><strong>${scaledVal}</strong> ${rest}</span></li>`;
+          }
+        }
+        return `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span><span>${line}</span></li>`;
+      }).join("");
+    }
+
+    function updateServingButtonsUI() {
+      document.querySelectorAll(".serving-btn").forEach(btn => {
+        const s = parseInt(btn.dataset.servings);
+        if (s === selectedServings) {
+          btn.className = "serving-btn px-3 py-1 rounded text-sm font-bold bg-amber-500 text-white shadow-xs";
+        } else {
+          btn.className = "serving-btn px-3 py-1 rounded text-sm font-medium text-stone-600 hover:bg-stone-100";
+        }
+      });
+    }
+
+    function setupServingButtons() {
+      document.querySelectorAll(".serving-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedServings = parseInt(btn.dataset.servings);
+          updateServingButtonsUI();
+          renderScaledIngredients();
+        });
+      });
+
+      document.getElementById("closeModal").addEventListener("click", () => {
+        document.getElementById("recipeModal").classList.add("hidden");
+      });
+
+      // Close modal on outside click
+      document.getElementById("recipeModal").addEventListener("click", (e) => {
+        if (e.target.id === "recipeModal") {
+          document.getElementById("recipeModal").classList.add("hidden");
+        }
+      });
+    }
+
+    // 1-Click Copy Ingredients Functionality
+    function setupCopyHandlers() {
+      const copyBtn = document.getElementById("copyIngredientsBtn");
+      copyBtn.addEventListener("click", () => {
+        if (!activeRecipe) return;
+
+        const baseServings = activeRecipe.default_servings || 2;
+        const ratio = selectedServings / baseServings;
+        const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
+
+        const scaledLines = lines.map(line => {
+          const match = line.match(/^([\d\.\/]+)\s*(.*)/);
+          if (match) {
+            let val = parseFloat(match[1]);
+            if (!isNaN(val)) {
+              let scaledVal = (val * ratio);
+              scaledVal = scaledVal % 1 === 0 ? scaledVal : scaledVal.toFixed(1);
+              return `${scaledVal} ${match[2]}`;
+            }
+          }
+          return line;
+        });
+
+        const shoppingListText = `🛒 Shopping List for ${activeRecipe.title} (${selectedServings} Servings):\n` +
+          scaledLines.map(item => `• ${item}`).join("\n") +
+          `\n\nSource: The 30 Minute Chef (Free Recipe Database)`;
+
+        navigator.clipboard.writeText(shoppingListText).then(() => {
+          const original = copyBtn.innerHTML;
+          copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied to Clipboard!`;
+          copyBtn.classList.replace("bg-amber-500", "bg-emerald-600");
+          lucide.createIcons();
+
+          setTimeout(() => {
+            copyBtn.innerHTML = original;
+            copyBtn.classList.replace("bg-emerald-600", "bg-amber-500");
+            lucide.createIcons();
+          }, 2000);
+        });
+      });
+
+      // Copy page URL inside social drawer
+      const copyUrlBtn = document.getElementById("copyAppUrlBtn");
+      copyUrlBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const textEl = document.getElementById("copyAppUrlText");
+          textEl.innerText = "Copied to Clipboard!";
+          setTimeout(() => { textEl.innerText = "Copy Page Link"; }, 2000);
+        });
+      });
+    }
+
+    // Tag and Search event listeners
+    function setupTagFilters() {
+      document.querySelectorAll(".tag-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tag-btn").forEach(b => {
+            b.className = "tag-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-white border border-stone-200 text-stone-600 hover:border-amber-400";
+          });
+          btn.className = "tag-btn active-tag px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition bg-amber-500 text-white shadow-xs";
+          activeTag = btn.dataset.tag;
+          renderGrid();
+        });
+      });
+    }
+
+    function setupSearch() {
+      document.getElementById("searchInput").addEventListener("input", () => {
+        renderGrid();
+      });
+    }
+
+    // Slide-out drawers (Social Right Drawer & Bottom Affiliate Banner)
+    function setupDrawerAndBannerHandlers() {
+      const shareDrawer = document.getElementById("shareDrawer");
+      const shareBackdrop = document.getElementById("shareDrawerBackdrop");
+      const openShareBtn = document.getElementById("toggleShareDrawer");
+      const closeShareBtn = document.getElementById("closeShareDrawer");
+
+      const openDrawer = () => {
+        shareDrawer.classList.remove("translate-x-full");
+        shareBackdrop.classList.remove("hidden");
+      };
+
+      const closeDrawer = () => {
+        shareDrawer.classList.add("translate-x-full");
+        shareBackdrop.classList.add("hidden");
+      };
+
+      openShareBtn.addEventListener("click", openDrawer);
+      closeShareBtn.addEventListener("click", closeDrawer);
+      shareBackdrop.addEventListener("click", closeDrawer);
+
+      // Affiliate Banner Collapsing
+      const affiliateBanner = document.getElementById("affiliateBanner");
+      const dismissAffiliateBtn = document.getElementById("dismissAffiliateBtn");
+      const restoreAffiliateBtn = document.getElementById("restoreAffiliateBtn");
+
+      dismissAffiliateBtn.addEventListener("click", () => {
+        affiliateBanner.classList.add("translate-y-full");
+        restoreAffiliateBtn.classList.remove("hidden");
+        restoreAffiliateBtn.classList.add("flex");
+      });
+
+      restoreAffiliateBtn.addEventListener("click", () => {
+        affiliateBanner.classList.remove("translate-y-full");
+        restoreAffiliateBtn.classList.add("hidden");
+        restoreAffiliateBtn.classList.remove("flex");
+      });
+    }
+
+    // Launch app on DOM ready
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
