@@ -13,7 +13,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* Smooth sliding transitions */
     .drawer-transition {
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -53,7 +52,7 @@
     </div>
   </header>
 
-  <!-- ================= HERO & CONTROLS ================= -->
+  <!-- ================= MAIN CONTENT ================= -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
     <div class="text-center max-w-2xl mx-auto mb-8">
       <div class="inline-block sm:hidden mb-2 px-3 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
@@ -63,7 +62,7 @@
         Dinner solved in under 30 minutes.
       </h2>
       <p class="text-stone-600 mt-2 text-sm sm:text-base">
-        Select tags to filter, pick your party size (1–6 people), and copy your shopping list with a single click.
+        Filter by ingredient, pick your party size (1–6 people), and copy your shopping list with a single click.
       </p>
 
       <!-- Search Input -->
@@ -72,7 +71,7 @@
         <input 
           type="text" 
           id="searchInput" 
-          placeholder="Search by recipe title or ingredient..." 
+          placeholder="Search recipes, ingredients, utensils..." 
           class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white shadow-xs text-sm"
         />
       </div>
@@ -105,37 +104,39 @@
 
     <!-- Recipe Cards Grid -->
     <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Loading skeletons initially -->
-      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
-      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
-      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-80"></div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-64"></div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-64"></div>
+      <div class="bg-white rounded-2xl p-6 border border-stone-200 animate-pulse h-64"></div>
     </div>
   </main>
 
   <!-- ================= RECIPE DETAIL MODAL ================= -->
   <div id="recipeModal" class="fixed inset-0 bg-black/60 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative">
-      <!-- Modal Header Image -->
-      <div class="relative h-48 sm:h-64 bg-stone-100 flex-shrink-0">
-        <img id="modalImage" src="" alt="Recipe photo" class="w-full h-full object-cover">
-        <button id="closeModal" class="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition">
+      <!-- Modal Header Banner -->
+      <div class="bg-amber-500 p-6 text-white relative flex-shrink-0">
+        <button id="closeModal" class="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white rounded-full p-2 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
+        <div id="modalTags" class="flex flex-wrap gap-1.5 mb-2"></div>
+        <h3 id="modalTitle" class="text-2xl font-black tracking-tight leading-snug"></h3>
+        <span class="inline-flex items-center gap-1.5 mt-2 bg-amber-600/50 px-2.5 py-1 rounded-md text-xs font-semibold">
+          <i data-lucide="clock" class="w-3.5 h-3.5"></i> 30 Minutes or Less
+        </span>
       </div>
 
-      <!-- Modal Content Body -->
+      <!-- Modal Body -->
       <div class="p-6 overflow-y-auto space-y-6">
+        <!-- Utensils Section -->
         <div>
-          <div id="modalTags" class="flex flex-wrap gap-1.5 mb-2"></div>
-          <h3 id="modalTitle" class="text-2xl font-bold text-stone-900"></h3>
-          <div class="flex items-center gap-4 text-stone-500 text-sm mt-1">
-            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-amber-500"></i> <span id="modalPrepTime"></span></span>
-            <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Under 30 mins</span>
-          </div>
+          <h4 class="font-bold text-stone-900 text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+            <i data-lucide="chef-hat" class="w-4 h-4 text-amber-500"></i> Utensils Required
+          </h4>
+          <div id="modalUtensils" class="flex flex-wrap gap-2 text-xs"></div>
         </div>
 
         <!-- Serving Multiplier Control -->
-        <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200/60 flex flex-wrap items-center justify-between gap-3">
+        <div class="bg-amber-50/70 p-4 rounded-xl border border-amber-200/60 flex flex-wrap items-center justify-between gap-3">
           <div>
             <label class="text-xs font-bold uppercase tracking-wider text-amber-900 block">Number of Recipients:</label>
             <span class="text-xs text-stone-500">Scale ingredients automatically</span>
@@ -153,8 +154,8 @@
         <!-- Ingredients with 1-Click Copy -->
         <div>
           <div class="flex items-center justify-between mb-3">
-            <h4 class="font-bold text-stone-900 text-lg flex items-center gap-2">
-              <i data-lucide="shopping-basket" class="w-5 h-5 text-amber-600"></i> Ingredients List
+            <h4 class="font-bold text-stone-900 text-base flex items-center gap-2">
+              <i data-lucide="shopping-basket" class="w-4 h-4 text-amber-600"></i> Ingredients List
             </h4>
             <button 
               id="copyIngredientsBtn" 
@@ -166,10 +167,10 @@
           <ul id="modalIngredients" class="space-y-1.5 text-sm text-stone-700 bg-stone-50 p-4 rounded-xl border border-stone-200"></ul>
         </div>
 
-        <!-- Instructions -->
+        <!-- Preparation Method -->
         <div>
-          <h4 class="font-bold text-stone-900 text-lg mb-2 flex items-center gap-2">
-            <i data-lucide="flame" class="w-5 h-5 text-amber-600"></i> Directions
+          <h4 class="font-bold text-stone-900 text-base mb-2 flex items-center gap-2">
+            <i data-lucide="flame" class="w-4 h-4 text-amber-600"></i> Preparation Method
           </h4>
           <div id="modalInstructions" class="text-sm text-stone-700 leading-relaxed space-y-2 whitespace-pre-line bg-stone-50 p-4 rounded-xl border border-stone-200"></div>
         </div>
@@ -178,10 +179,7 @@
   </div>
 
   <!-- ================= RIGHT SOCIAL SHARE DRAWER ================= -->
-  <div 
-    id="shareDrawerBackdrop" 
-    class="fixed inset-0 bg-black/40 z-40 hidden backdrop-blur-xs transition-opacity"
-  ></div>
+  <div id="shareDrawerBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden backdrop-blur-xs transition-opacity"></div>
   <aside 
     id="shareDrawer" 
     class="fixed top-0 right-0 h-full w-80 bg-white border-l border-stone-200 z-50 shadow-2xl p-6 drawer-transition translate-x-full flex flex-col justify-between"
@@ -197,11 +195,10 @@
       </div>
 
       <p class="text-xs text-stone-500 mt-4 leading-relaxed">
-        Know someone who needs easy 30-minute meals? Share this completely free resource with friends and family!
+        Know someone who needs quick, easy 30-minute meals? Share this completely free resource!
       </p>
 
       <div class="space-y-3 mt-6">
-        <!-- Facebook -->
         <a 
           href="https://www.facebook.com/sharer/sharer.php?u=https://the30minutechef.com" 
           target="_blank" 
@@ -211,7 +208,6 @@
           <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">f</div>
           Share on Facebook
         </a>
-        <!-- X / Twitter -->
         <a 
           href="https://twitter.com/intent/tweet?text=Fast%2C%20delicious%20recipes%20in%2030%20minutes%20or%20less!&url=https://the30minutechef.com" 
           target="_blank" 
@@ -221,7 +217,6 @@
           <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center font-bold">𝕏</div>
           Share on X
         </a>
-        <!-- WhatsApp -->
         <a 
           href="https://api.whatsapp.com/send?text=Check%20out%20these%20free%20quick%2030-minute%20recipes:%20https://the30minutechef.com" 
           target="_blank" 
@@ -231,7 +226,6 @@
           <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center"><i data-lucide="message-circle" class="w-4 h-4"></i></div>
           Share on WhatsApp
         </a>
-        <!-- Copy Direct Link -->
         <button 
           id="copyAppUrlBtn" 
           class="flex items-center gap-3 w-full p-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 transition text-sm font-semibold text-stone-700"
@@ -243,7 +237,7 @@
     </div>
 
     <div class="text-[11px] text-stone-400 text-center">
-      The 30 Minute Chef &bull; No subscriptions, always free
+      The 30 Minute Chef &bull; Free Recipe Database
     </div>
   </aside>
 
@@ -259,7 +253,7 @@
         </div>
         <div>
           <p class="text-sm font-bold text-white">
-            Level up your speed cooking with our recommended non-stick chef pans &amp; knives
+            Level up your speed cooking with our recommended non-stick pans &amp; knives
           </p>
           <p class="text-xs text-stone-400">
             We partner with trusted kitchen brands. As an affiliate, we earn from qualifying purchases at zero extra cost to you.
@@ -287,7 +281,7 @@
     </div>
   </aside>
 
-  <!-- Small tab button to restore the affiliate banner if tucked away -->
+  <!-- Restore affiliate button -->
   <button 
     id="restoreAffiliateBtn" 
     class="fixed bottom-2 left-4 bg-stone-900 text-stone-300 hover:text-white text-xs px-3 py-1.5 rounded-full border border-stone-700 shadow-lg z-30 hidden items-center gap-1.5 transition"
@@ -295,56 +289,44 @@
     <i data-lucide="tag" class="w-3.5 h-3.5 text-amber-400"></i> Recommended Kitchen Gear
   </button>
 
-  <!-- ================= LOGIC SCRIPT ================= -->
+  <!-- ================= JAVASCRIPT ================= -->
   <script>
     /* =====================================================================
-       1. GOOGLE SHEETS CSV CONFIGURATION
-       Paste your published CSV link here:
-       File > Share > Publish to web > CSV > Publish
+       GOOGLE SHEETS CSV LINK:
+       Replace with your published CSV link:
+       File > Share > Publish to web > Select Tab > CSV (.csv) > Publish
        ===================================================================== */
-    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ14zGs68aC9920W3v1hJVTV2M6p4jPZH8Q6SW0KW7wTNuP5VHhUXsoTCjUzLfd3DnDN_Mt62RAiisk/pub?output=csv";
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_DEMO_REPLACE_WITH_YOUR_KEY/pub?output=csv";
 
-    // Fallback Mock Data in case CSV fails or is not replaced yet
+    // Fallback data strictly following your 5 fields
     const FALLBACK_RECIPES = [
       {
-        id: "1",
-        title: "15-Minute Garlic Butter Salmon",
-        prep_time: "15 mins",
-        tags: "Fish, Rice",
-        default_servings: 2,
-        ingredients: "300 g salmon fillets\n2 tbsp butter\n3 cloves garlic (minced)\n1 tbsp fresh lemon juice\n1 cup cooked jasmine rice\n1 pinch salt & black pepper",
-        instructions: "1. Heat butter in a non-stick skillet over medium-high heat.\n2. Season salmon fillets with salt and pepper.\n3. Pan sear salmon skin-side down for 4 minutes, flip and sear for 3 minutes.\n4. Stir in minced garlic and lemon juice during the final minute.\n5. Serve hot over steaming jasmine rice.",
-        image_url: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80"
+        "recipe ID": "1",
+        "recipe title": "Garlic Butter Salmon with Jasmine Rice",
+        "recipe ingredients": "300 g salmon fillets\n2 tbsp butter\n3 cloves garlic (minced)\n1 tbsp fresh lemon juice\n1 cup cooked jasmine rice\n1 pinch salt & black pepper",
+        "utensils required": "Non-stick frying pan, Rice cooker or pot, Fish spatula, Garlic press",
+        "preparation method": "1. Season salmon fillets on both sides with salt and pepper.\n2. Heat butter in a non-stick frying pan over medium-high heat.\n3. Place salmon skin-side down and sear for 4 minutes.\n4. Flip salmon, add minced garlic and lemon juice to the pan, and baste salmon for 3 minutes.\n5. Plate over hot jasmine rice and pour remaining pan butter over top."
       },
       {
-        id: "2",
-        title: "Creamy Tuscan Garlic Chicken",
-        prep_time: "20 mins",
-        tags: "Chicken, Pasta",
-        default_servings: 4,
-        ingredients: "500 g chicken breast cutlets\n250 g fettuccine pasta\n1 cup heavy cream\n2 cups fresh baby spinach\n0.5 cup sun-dried tomatoes (chopped)\n3 cloves garlic (minced)\n1 tbsp olive oil",
-        instructions: "1. Boil fettuccine in salted water until al dente.\n2. In a skillet, heat olive oil and cook chicken 4-5 mins each side until golden; set aside.\n3. Add garlic, sun-dried tomatoes, and cream into the pan; bring to a light simmer.\n4. Fold in baby spinach until wilted.\n5. Slice chicken, toss pasta through the sauce, and serve immediately.",
-        image_url: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
+        "recipe ID": "2",
+        "recipe title": "Creamy Tuscan Chicken Fettuccine",
+        "recipe ingredients": "500 g chicken breast cutlets\n250 g fettuccine pasta\n1 cup heavy cream\n2 cups fresh baby spinach\n0.5 cup chopped sun-dried tomatoes\n3 cloves garlic (minced)\n1 tbsp olive oil",
+        "utensils required": "Large pasta pot, Deep skillet, Colander, Chef's knife, Tongs",
+        "preparation method": "1. Bring salted water to boil in pasta pot; cook fettuccine until al dente.\n2. Heat olive oil in skillet. Pan fry chicken 4-5 mins each side until browned; transfer to a plate.\n3. Add minced garlic, sun-dried tomatoes, and cream into the pan; simmer for 2 minutes.\n4. Stir in baby spinach until wilted.\n5. Slice chicken into strips, toss drained pasta into the sauce, and serve hot."
       },
       {
-        id: "3",
-        title: "Sizzling 20-Minute Beef & Broccoli Stir-Fry",
-        prep_time: "20 mins",
-        tags: "Beef, Rice",
-        default_servings: 2,
-        ingredients: "350 g flank steak (thinly sliced)\n2 heads broccoli (cut into florets)\n3 tbsp soy sauce\n1 tbsp sesame oil\n1 tbsp cornstarch\n1 tbsp brown sugar\n2 cloves garlic\n1 cup cooked white rice",
-        instructions: "1. Toss sliced beef with cornstarch and 1 tbsp soy sauce.\n2. Sear beef in smoking hot oil for 2 minutes; remove.\n3. Toss broccoli florets in pan with 2 tbsp water; steam for 3 mins.\n4. Stir in brown sugar, remaining soy sauce, sesame oil, and garlic.\n5. Return beef to skillet, coat in sauce, and serve over white rice.",
-        image_url: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=600&q=80"
+        "recipe ID": "3",
+        "recipe title": "Sizzling 15-Minute Beef & Broccoli",
+        "recipe ingredients": "350 g flank steak (thinly sliced)\n2 heads broccoli (cut into florets)\n3 tbsp soy sauce\n1 tbsp sesame oil\n1 tbsp cornstarch\n1 tbsp brown sugar\n2 cloves garlic\n1 cup cooked rice",
+        "utensils required": "Wok or large skillet, Small mixing bowl, Wooden spatula, Cutting board",
+        "preparation method": "1. In small bowl, whisk soy sauce, sesame oil, brown sugar, and cornstarch.\n2. Toss sliced beef with 1 tablespoon of the sauce.\n3. Sear beef in smoking hot wok for 2 minutes; set aside.\n4. Add broccoli and 2 tbsp water to wok; steam-fry for 3 minutes.\n5. Return beef and garlic, pour over remaining sauce, toss for 1 minute, and serve with rice."
       },
       {
-        id: "4",
-        title: "Creamy Sundried Tomato & Spinach Penne",
-        prep_time: "18 mins",
-        tags: "Vegetarian, Pasta",
-        default_servings: 2,
-        ingredients: "200 g penne pasta\n0.5 cup sun-dried tomatoes\n3 cups fresh spinach\n1 cup vegetable stock\n0.5 cup cream cheese\n2 cloves garlic\n1 tbsp olive oil",
-        instructions: "1. Cook penne according to package instructions.\n2. Sauté garlic and sun-dried tomatoes in olive oil for 1 minute.\n3. Stir in vegetable broth and cream cheese until smooth and creamy.\n4. Add fresh spinach and cooked penne; toss gently until spinach wilts.",
-        image_url: "https://images.unsplash.com/photo-1621996346565-e3d5d6281788?auto=format&fit=crop&w=600&q=80"
+        "recipe ID": "4",
+        "recipe title": "Creamy Sun-Dried Tomato & Spinach Penne",
+        "recipe ingredients": "250 g penne pasta\n0.5 cup sun-dried tomatoes\n3 cups fresh spinach\n1 cup vegetable stock\n0.5 cup cream cheese\n2 cloves garlic\n1 tbsp olive oil",
+        "utensils required": "Medium saucepan, Colander, Wooden spoon, Measuring cups",
+        "preparation method": "1. Boil penne in salted water according to package instructions; drain.\n2. Sauté garlic and sun-dried tomatoes in olive oil for 1 minute.\n3. Whisk in vegetable stock and cream cheese until smooth and creamy.\n4. Fold in spinach until wilted, then toss the cooked penne into the sauce."
       }
     ];
 
@@ -352,9 +334,40 @@
     let currentFiltered = [];
     let activeTag = "All";
     let activeRecipe = null;
-    let selectedServings = 2;
+    let selectedServings = 2; // Default recipe base serving size
 
-    // Initialize application
+    // Helper: Find value from row ignoring spaces/casing
+    function getField(row, targetNames) {
+      const keys = Object.keys(row);
+      for (const target of targetNames) {
+        const cleanTarget = target.toLowerCase().replace(/[^a-z0-9]/g, '');
+        for (const key of keys) {
+          const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (cleanKey === cleanTarget) {
+            return (row[key] || "").toString().trim();
+          }
+        }
+      }
+      return "";
+    }
+
+    // Auto-detect recipe tags based on title + ingredients
+    function deriveTags(title, ingredients) {
+      const combined = (title + " " + ingredients).toLowerCase();
+      const tags = [];
+      if (combined.includes("chicken")) tags.push("Chicken");
+      if (combined.includes("beef") || combined.includes("steak") || combined.includes("mince")) tags.push("Beef");
+      if (combined.includes("salmon") || combined.includes("fish") || combined.includes("prawn") || combined.includes("tuna")) tags.push("Fish");
+      if (combined.includes("pasta") || combined.includes("penne") || combined.includes("fettuccine") || combined.includes("spaghetti")) tags.push("Pasta");
+      if (combined.includes("rice")) tags.push("Rice");
+      
+      // If none of the meats/fish match, consider it vegetarian
+      if (!combined.includes("chicken") && !combined.includes("beef") && !combined.includes("steak") && !combined.includes("fish") && !combined.includes("salmon") && !combined.includes("bacon") && !combined.includes("pork")) {
+        tags.push("Vegetarian");
+      }
+      return tags.length > 0 ? tags : ["Quick Meal"];
+    }
+
     async function init() {
       lucide.createIcons();
       setupDrawerAndBannerHandlers();
@@ -366,7 +379,6 @@
       await loadSheetData();
     }
 
-    // Load CSV from Google Sheets or fallback
     async function loadSheetData() {
       try {
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
@@ -378,42 +390,57 @@
           skipEmptyLines: true,
           complete: function(results) {
             if (results.data && results.data.length > 0) {
-              allRecipes = results.data.map((r, i) => ({
-                id: r.id || (i + 1).toString(),
-                title: r.title || "Untitled Recipe",
-                prep_time: r.prep_time || "20 mins",
-                tags: r.tags || "General",
-                default_servings: parseInt(r.default_servings) || 2,
-                ingredients: r.ingredients || "",
-                instructions: r.instructions || "",
-                image_url: r.image_url || "https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=600&q=80"
-              }));
+              allRecipes = results.data.map((row, i) => {
+                const id = getField(row, ["recipe ID", "recipeID", "id"]) || (i + 1).toString();
+                const title = getField(row, ["recipe title", "title", "recipe_title"]) || "Untitled Recipe";
+                const ingredients = getField(row, ["recipe ingredients", "ingredients", "recipe_ingredients"]);
+                const utensils = getField(row, ["utensils required", "utensils", "utensils_required"]);
+                const prep = getField(row, ["preparation method", "preparation", "method", "instructions"]);
+
+                return {
+                  id,
+                  title,
+                  ingredients,
+                  utensils: utensils || "Standard kitchen utensils",
+                  method: prep || "No preparation steps listed.",
+                  tags: deriveTags(title, ingredients)
+                };
+              });
             } else {
-              allRecipes = FALLBACK_RECIPES;
+              processFallback();
             }
             renderGrid();
           }
         });
       } catch (err) {
-        console.warn("Using sample recipes. Update GOOGLE_SHEET_CSV_URL with your live link.", err);
-        allRecipes = FALLBACK_RECIPES;
+        console.warn("Using fallback demo recipes. Set GOOGLE_SHEET_CSV_URL to your public CSV link.", err);
+        processFallback();
         renderGrid();
       }
     }
 
-    // Render Cards
+    function processFallback() {
+      allRecipes = FALLBACK_RECIPES.map((row, i) => ({
+        id: row["recipe ID"] || (i + 1).toString(),
+        title: row["recipe title"],
+        ingredients: row["recipe ingredients"],
+        utensils: row["utensils required"],
+        method: row["preparation method"],
+        tags: deriveTags(row["recipe title"], row["recipe ingredients"])
+      }));
+    }
+
     function renderGrid() {
       const grid = document.getElementById("recipeGrid");
       const query = document.getElementById("searchInput").value.toLowerCase().trim();
 
       currentFiltered = allRecipes.filter(recipe => {
-        const matchesTag = activeTag === "All" || 
-          recipe.tags.toLowerCase().includes(activeTag.toLowerCase());
+        const matchesTag = activeTag === "All" || recipe.tags.includes(activeTag);
 
         const matchesQuery = !query || 
           recipe.title.toLowerCase().includes(query) || 
           recipe.ingredients.toLowerCase().includes(query) ||
-          recipe.tags.toLowerCase().includes(query);
+          recipe.utensils.toLowerCase().includes(query);
 
         return matchesTag && matchesQuery;
       });
@@ -423,7 +450,7 @@
           <div class="col-span-full py-16 text-center">
             <i data-lucide="utensils-crossed" class="w-12 h-12 mx-auto text-stone-300 mb-3"></i>
             <h3 class="text-base font-bold text-stone-700">No matching recipes found</h3>
-            <p class="text-stone-500 text-xs mt-1">Try toggling another tag or adjusting your search term.</p>
+            <p class="text-stone-500 text-xs mt-1">Try another tag or adjust your search.</p>
           </div>
         `;
         lucide.createIcons();
@@ -431,43 +458,35 @@
       }
 
       grid.innerHTML = currentFiltered.map(recipe => {
-        const tagList = recipe.tags.split(",").map(t => t.trim());
         return `
-          <article class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col group">
-            <div class="h-48 overflow-hidden relative bg-stone-100">
-              <img 
-                src="${recipe.image_url}" 
-                alt="${recipe.title}" 
-                loading="lazy" 
-                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-              />
-              <span class="absolute top-3 right-3 bg-stone-900/80 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-                <i data-lucide="clock" class="w-3 h-3 text-amber-400"></i> ${recipe.prep_time}
-              </span>
-            </div>
-            
-            <div class="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <div class="flex flex-wrap gap-1.5 mb-2">
-                  ${tagList.map(t => `<span class="bg-amber-100/70 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">${t}</span>`).join("")}
+          <article class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between group p-6">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="flex flex-wrap gap-1">
+                  ${recipe.tags.map(t => `<span class="bg-amber-100/80 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${t}</span>`).join("")}
                 </div>
-                <h3 class="font-bold text-stone-900 text-lg group-hover:text-amber-600 transition line-clamp-1">
-                  ${recipe.title}
-                </h3>
-                <p class="text-stone-500 text-xs mt-2 line-clamp-2">
-                  ${recipe.ingredients.replace(/\n/g, ', ')}
-                </p>
+                <span class="text-[11px] font-bold text-stone-400">#${recipe.id}</span>
               </div>
+              
+              <h3 class="font-extrabold text-stone-900 text-lg group-hover:text-amber-600 transition line-clamp-2 leading-snug">
+                ${recipe.title}
+              </h3>
+              
+              <p class="text-stone-500 text-xs mt-3 line-clamp-2 leading-relaxed">
+                <strong class="text-stone-700">Ingredients:</strong> ${recipe.ingredients.replace(/\n/g, ', ')}
+              </p>
+            </div>
 
-              <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
-                <span class="text-xs text-stone-400 font-medium">Default: ${recipe.default_servings} Servings</span>
-                <button 
-                  onclick="openModal('${recipe.id}')" 
-                  class="bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs"
-                >
-                  View &amp; Scale <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
+            <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
+              <span class="text-xs text-stone-400 flex items-center gap-1">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-500"></i> &le; 30 Mins
+              </span>
+              <button 
+                onclick="openModal('${recipe.id}')" 
+                class="bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs"
+              >
+                View &amp; Scale <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
             </div>
           </article>
         `;
@@ -476,40 +495,47 @@
       lucide.createIcons();
     }
 
-    // Modal Display & Ingredient Scaling (1 to 6 people)
+    // Modal Display & Dynamic Scaling
     window.openModal = function(id) {
       activeRecipe = allRecipes.find(r => r.id === id);
       if (!activeRecipe) return;
 
-      selectedServings = activeRecipe.default_servings || 2;
+      selectedServings = 2; // Baseline default
       
       document.getElementById("modalTitle").innerText = activeRecipe.title;
-      document.getElementById("modalPrepTime").innerText = activeRecipe.prep_time;
-      document.getElementById("modalImage").src = activeRecipe.image_url;
-      document.getElementById("modalInstructions").innerText = activeRecipe.instructions;
+      document.getElementById("modalInstructions").innerText = activeRecipe.method;
+
+      // Utensils badges
+      const utensilsContainer = document.getElementById("modalUtensils");
+      const utensilItems = activeRecipe.utensils.split(/[,;\n]/).map(u => u.trim()).filter(Boolean);
+      utensilsContainer.innerHTML = utensilItems.map(item => 
+        `<span class="bg-stone-100 text-stone-700 font-medium px-2.5 py-1 rounded-md border border-stone-200 flex items-center gap-1">
+          <i data-lucide="check" class="w-3 h-3 text-amber-500"></i> ${item}
+        </span>`
+      ).join("");
 
       // Render tags
       const tagsContainer = document.getElementById("modalTags");
-      tagsContainer.innerHTML = activeRecipe.tags.split(",").map(t => 
-        `<span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${t.trim()}</span>`
+      tagsContainer.innerHTML = activeRecipe.tags.map(t => 
+        `<span class="bg-black/25 text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full">${t}</span>`
       ).join("");
 
       updateServingButtonsUI();
       renderScaledIngredients();
 
       document.getElementById("recipeModal").classList.remove("hidden");
+      lucide.createIcons();
     };
 
     function renderScaledIngredients() {
       if (!activeRecipe) return;
-      const baseServings = activeRecipe.default_servings || 2;
+      const baseServings = 2;
       const ratio = selectedServings / baseServings;
 
       const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
       const ingredientsListEl = document.getElementById("modalIngredients");
 
       ingredientsListEl.innerHTML = lines.map(line => {
-        // Regex matches quantity numbers (e.g., 2, 2.5, 300) at the start of ingredient lines
         const match = line.match(/^([\d\.\/]+)\s*(.*)/);
         if (match) {
           const rawNum = match[1];
@@ -517,7 +543,6 @@
           let val = parseFloat(rawNum);
           if (!isNaN(val)) {
             let scaledVal = (val * ratio);
-            // Format cleanly: round to 2 decimals or keep clean integer
             scaledVal = scaledVal % 1 === 0 ? scaledVal : scaledVal.toFixed(1);
             return `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span><span><strong>${scaledVal}</strong> ${rest}</span></li>`;
           }
@@ -550,7 +575,6 @@
         document.getElementById("recipeModal").classList.add("hidden");
       });
 
-      // Close modal on outside click
       document.getElementById("recipeModal").addEventListener("click", (e) => {
         if (e.target.id === "recipeModal") {
           document.getElementById("recipeModal").classList.add("hidden");
@@ -558,13 +582,13 @@
       });
     }
 
-    // 1-Click Copy Ingredients Functionality
+    // 1-Click Copy Scaled Ingredients
     function setupCopyHandlers() {
       const copyBtn = document.getElementById("copyIngredientsBtn");
       copyBtn.addEventListener("click", () => {
         if (!activeRecipe) return;
 
-        const baseServings = activeRecipe.default_servings || 2;
+        const baseServings = 2;
         const ratio = selectedServings / baseServings;
         const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
 
@@ -581,13 +605,14 @@
           return line;
         });
 
-        const shoppingListText = `🛒 Shopping List for ${activeRecipe.title} (${selectedServings} Servings):\n` +
+        const shoppingListText = `🛒 Shopping List for: ${activeRecipe.title} (${selectedServings} Servings)\n\n` +
           scaledLines.map(item => `• ${item}`).join("\n") +
+          `\n\nUtensils Required: ${activeRecipe.utensils}` +
           `\n\nSource: The 30 Minute Chef (Free Recipe Database)`;
 
         navigator.clipboard.writeText(shoppingListText).then(() => {
           const original = copyBtn.innerHTML;
-          copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied to Clipboard!`;
+          copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied!`;
           copyBtn.classList.replace("bg-amber-500", "bg-emerald-600");
           lucide.createIcons();
 
@@ -610,7 +635,6 @@
       });
     }
 
-    // Tag and Search event listeners
     function setupTagFilters() {
       document.querySelectorAll(".tag-btn").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -630,7 +654,6 @@
       });
     }
 
-    // Slide-out drawers (Social Right Drawer & Bottom Affiliate Banner)
     function setupDrawerAndBannerHandlers() {
       const shareDrawer = document.getElementById("shareDrawer");
       const shareBackdrop = document.getElementById("shareDrawerBackdrop");
@@ -651,7 +674,7 @@
       closeShareBtn.addEventListener("click", closeDrawer);
       shareBackdrop.addEventListener("click", closeDrawer);
 
-      // Affiliate Banner Collapsing
+      // Affiliate banner toggles
       const affiliateBanner = document.getElementById("affiliateBanner");
       const dismissAffiliateBtn = document.getElementById("dismissAffiliateBtn");
       const restoreAffiliateBtn = document.getElementById("restoreAffiliateBtn");
@@ -669,7 +692,6 @@
       });
     }
 
-    // Launch app on DOM ready
     document.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
