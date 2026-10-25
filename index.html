@@ -52,38 +52,37 @@
           <span class="hidden md:inline">Share</span>
         </button>
         <!-- Button HTML -->
-<a 
-  href="https://support-lilac-omega.vercel.app/" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  class="contact-dev-btn"
->
-  Contact The Dev
-</a>
+        <a 
+          href="https://support-lilac-omega.vercel.app/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="contact-dev-btn"
+        >
+          Contact The Dev
+        </a>
 
-<!-- Embedded CSS Styling -->
-<style>
-  .contact-dev-btn {
-    display: inline-block;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #ffffff;
-    background-color: #000000;
-    border: 1px solid #000000;
-    border-radius: 9999px; /* Fully rounded pill shape */
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
+        <!-- Embedded CSS Styling -->
+        <style>
+          .contact-dev-btn {
+            display: inline-block;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #ffffff;
+            background-color: #000000;
+            border: 1px solid #000000;
+            border-radius: 9999px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+          }
 
-  /* Reverse color rollover */
-  .contact-dev-btn:hover {
-    background-color: #ffffff;
-    color: #000000;
-  }
-</style>
+          .contact-dev-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+          }
+        </style>
       </div>
     </div>
   </header>
@@ -277,18 +276,298 @@
     </div>
   </aside>
 
- 
+  <!-- Generic App Footer -->
+  <footer style="
+      width: 100%;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      background-color: transparent;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  ">
+    <span>
+      Made for productivity and enjoyment &nbsp;|&nbsp; 
+      2026 &nbsp;|&nbsp; 
+      info.biz.developer@gmail.com
+    </span>
+  </footer>
 
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- ========================================== -->
+  <!-- START: Affiliate Bottom Drawer Snippet     -->
+  <!-- ========================================== -->
+  <aside id="affiliate-drawer" class="aff-drawer-open" aria-label="Featured Tools & Apps">
+    <!-- Drawer Header / Toggle Button -->
+    <button id="aff-drawer-toggle" class="aff-drawer-toggle" aria-expanded="true" title="Toggle Featured Tools">
+      <span class="aff-toggle-title">
+        <svg class="aff-icon-sparkle" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 2l2.4 7.2L21.6 12l-7.2 2.4L12 21.6l-2.4-7.2L2.4 12l7.2-2.4z"/>
+        </svg>
+        Featured Creative Apps
+      </span>
+      <span class="aff-toggle-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Drawer Body -->
+    <div class="aff-drawer-content">
+      <div class="aff-cards-grid">
+        <!-- Link 1: conceptpromptgen.app -->
+        <a href="https://conceptpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+          <div class="aff-card-icon aff-grad-1">💡</div>
+          <div class="aff-card-body">
+            <span class="aff-card-title">ConceptPromptGen</span>
+            <span class="aff-card-desc">Generate rich creative prompts & ideas</span>
+          </div>
+          <span class="aff-card-arrow">↗</span>
+        </a>
+
+        <!-- Link 2: webtemplategen.app -->
+        <a href="https://webtemplategen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+          <div class="aff-card-icon aff-grad-2">🌐</div>
+          <div class="aff-card-body">
+            <span class="aff-card-title">WebTemplateGen</span>
+            <span class="aff-card-desc">Instant web layouts & code boilerplate</span>
+          </div>
+          <span class="aff-card-arrow">↗</span>
+        </a>
+
+        <!-- Link 3: characterpromptgen.app -->
+        <a href="https://characterpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+          <div class="aff-card-icon aff-grad-3">🎭</div>
+          <div class="aff-card-body">
+            <span class="aff-card-title">CharacterPromptGen</span>
+            <span class="aff-card-desc">Craft detailed character bios & roles</span>
+          </div>
+          <span class="aff-card-arrow">↗</span>
+        </a>
+
+        <!-- Link 4: designproflow.app -->
+        <a href="https://designproflow.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+          <div class="aff-card-icon aff-grad-4">⚡</div>
+          <div class="aff-card-body">
+            <span class="aff-card-title">DesignProFlow</span>
+            <span class="aff-card-desc">Supercharge your design workflow</span>
+          </div>
+          <span class="aff-card-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <style>
+    /* Scoped drawer styles to avoid conflicts */
+    #affiliate-drawer {
+      --aff-bg: #121318;
+      --aff-card-bg: rgba(255, 255, 255, 0.05);
+      --aff-card-hover: rgba(255, 255, 255, 0.1);
+      --aff-border: rgba(255, 255, 255, 0.1);
+      --aff-text-primary: #ffffff;
+      --aff-text-secondary: #9aa0a6;
+      --aff-accent: #6366f1;
+
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 95%;
+      max-width: 1040px;
+      z-index: 999999;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #affiliate-drawer *,
+    #affiliate-drawer *::before,
+    #affiliate-drawer *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    #affiliate-drawer.aff-drawer-closed {
+      transform: translate(-50%, calc(100% - 38px));
+    }
+
+    .aff-drawer-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--aff-bg);
+      border: 1px solid var(--aff-border);
+      border-bottom: none;
+      padding: 7px 18px;
+      border-radius: 12px 12px 0 0;
+      color: var(--aff-text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+      outline: none;
+      user-select: none;
+      position: relative;
+      left: 20px;
+    }
+
+    .aff-drawer-toggle:hover {
+      background: #1a1c23;
+    }
+
+    .aff-toggle-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .aff-icon-sparkle {
+      color: #f59e0b;
+    }
+
+    .aff-toggle-icon {
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    #affiliate-drawer.aff-drawer-closed .aff-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .aff-drawer-content {
+      background: var(--aff-bg);
+      border: 1px solid var(--aff-border);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      padding: 16px 20px 20px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+
+    .aff-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .aff-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--aff-card-bg);
+      border: 1px solid var(--aff-border);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .aff-card:hover {
+      background: var(--aff-card-hover);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .aff-card-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .aff-grad-1 { background: linear-gradient(135deg, #f59e0b25, #f59e0b40); }
+    .aff-grad-2 { background: linear-gradient(135deg, #3b82f625, #3b82f640); }
+    .aff-grad-3 { background: linear-gradient(135deg, #ec489925, #ec489940); }
+    .aff-grad-4 { background: linear-gradient(135deg, #10b98125, #10b98140); }
+
+    .aff-card-body {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .aff-card-title {
+      color: var(--aff-text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .aff-card-desc {
+      color: var(--aff-text-secondary);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .aff-card-arrow {
+      color: var(--aff-text-secondary);
+      font-size: 14px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .aff-card:hover .aff-card-arrow {
+      transform: translate(2px, -2px);
+      color: var(--aff-text-primary);
+    }
+
+    @media (max-width: 900px) {
+      .aff-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      #affiliate-drawer {
+        width: 100%;
+      }
+      .aff-cards-grid {
+        grid-template-columns: 1fr;
+        max-height: 240px;
+        overflow-y: auto;
+      }
+      .aff-drawer-toggle {
+        left: 12px;
+      }
+    }
+  </style>
+
   <script>
-    /* =====================================================================
-       GOOGLE SHEETS CSV LINK:
-       Replace with your published CSV link:
-       File > Share > Publish to web > Select Tab > CSV (.csv) > Publish
-       ===================================================================== */
+    (function() {
+      const drawer = document.getElementById('affiliate-drawer');
+      const toggleBtn = document.getElementById('aff-drawer-toggle');
+
+      if (toggleBtn && drawer) {
+        toggleBtn.addEventListener('click', function() {
+          const isClosed = drawer.classList.toggle('aff-drawer-closed');
+          drawer.classList.toggle('aff-drawer-open', !isClosed);
+          toggleBtn.setAttribute('aria-expanded', String(!isClosed));
+        });
+      }
+    })();
+  </script>
+  <!-- ========================================== -->
+  <!-- END: Affiliate Bottom Drawer Snippet       -->
+  <!-- ========================================== -->
+
+  <!-- ================= CORE APPLICATION JAVASCRIPT ================= -->
+  <script>
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ14zGs68aC9920W3v1hJVTV2M6p4jPZH8Q6SW0KW7wTNuP5VHhUXsoTCjUzLfd3DnDN_Mt62RAiisk/pub?output=csv";
 
-    // Fallback data strictly following your 5 fields
     const FALLBACK_RECIPES = [
       {
         "recipe ID": "1",
@@ -324,10 +603,10 @@
     let currentFiltered = [];
     let activeTag = "All";
     let activeRecipe = null;
-    let selectedServings = 2; // Default recipe base serving size
+    let selectedServings = 2;
 
-    // Helper: Find value from row ignoring spaces/casing
     function getField(row, targetNames) {
+      if (!row) return "";
       const keys = Object.keys(row);
       for (const target of targetNames) {
         const cleanTarget = target.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -341,9 +620,8 @@
       return "";
     }
 
-    // Auto-detect recipe tags based on title + ingredients
     function deriveTags(title, ingredients) {
-      const combined = (title + " " + ingredients).toLowerCase();
+      const combined = ((title || "") + " " + (ingredients || "")).toLowerCase();
       const tags = [];
       if (combined.includes("chicken")) tags.push("Chicken");
       if (combined.includes("beef") || combined.includes("steak") || combined.includes("mince")) tags.push("Beef");
@@ -351,7 +629,6 @@
       if (combined.includes("pasta") || combined.includes("penne") || combined.includes("fettuccine") || combined.includes("spaghetti")) tags.push("Pasta");
       if (combined.includes("rice")) tags.push("Rice");
       
-      // If none of the meats/fish match, consider it vegetarian
       if (!combined.includes("chicken") && !combined.includes("beef") && !combined.includes("steak") && !combined.includes("fish") && !combined.includes("salmon") && !combined.includes("bacon") && !combined.includes("pork")) {
         tags.push("Vegetarian");
       }
@@ -359,7 +636,7 @@
     }
 
     async function init() {
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
       setupDrawerAndBannerHandlers();
       setupTagFilters();
       setupSearch();
@@ -372,7 +649,7 @@
     async function loadSheetData() {
       try {
         const response = await fetch(GOOGLE_SHEET_CSV_URL);
-        if (!response.ok) throw new Error("Could not fetch remote sheet");
+        if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
         const csvText = await response.text();
 
         Papa.parse(csvText, {
@@ -380,30 +657,38 @@
           skipEmptyLines: true,
           complete: function(results) {
             if (results.data && results.data.length > 0) {
-              allRecipes = results.data.map((row, i) => {
-                const id = getField(row, ["recipe ID", "recipeID", "id"]) || (i + 1).toString();
-                const title = getField(row, ["recipe title", "title", "recipe_title"]) || "Untitled Recipe";
-                const ingredients = getField(row, ["recipe ingredients", "ingredients", "recipe_ingredients"]);
-                const utensils = getField(row, ["utensils required", "utensils", "utensils_required"]);
-                const prep = getField(row, ["preparation method", "preparation", "method", "instructions"]);
+              allRecipes = results.data
+                .map((row, i) => {
+                  const id = getField(row, ["recipe ID", "recipeID", "id"]) || (i + 1).toString();
+                  const title = getField(row, ["recipe title", "title", "recipe_title"]) || "Untitled Recipe";
+                  const ingredients = getField(row, ["recipe ingredients", "ingredients", "recipe_ingredients"]);
+                  const utensils = getField(row, ["utensils required", "utensils", "utensils_required"]);
+                  const prep = getField(row, ["preparation method", "preparation", "method", "instructions"]);
 
-                return {
-                  id,
-                  title,
-                  ingredients,
-                  utensils: utensils || "Standard kitchen utensils",
-                  method: prep || "No preparation steps listed.",
-                  tags: deriveTags(title, ingredients)
-                };
-              });
-            } else {
+                  return {
+                    id,
+                    title,
+                    ingredients,
+                    utensils: utensils || "Standard kitchen utensils",
+                    method: prep || "No preparation steps listed.",
+                    tags: deriveTags(title, ingredients)
+                  };
+                })
+                .filter(r => r.title !== "Untitled Recipe" || r.ingredients.length > 0);
+            }
+
+            if (!allRecipes.length) {
               processFallback();
             }
+            renderGrid();
+          },
+          error: function() {
+            processFallback();
             renderGrid();
           }
         });
       } catch (err) {
-        console.warn("Using fallback demo recipes. Set GOOGLE_SHEET_CSV_URL to your public CSV link.", err);
+        console.warn("Could not load Google Sheet CSV. Using fallback recipes.", err);
         processFallback();
         renderGrid();
       }
@@ -422,14 +707,15 @@
 
     function renderGrid() {
       const grid = document.getElementById("recipeGrid");
-      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+      const searchInput = document.getElementById("searchInput");
+      const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
 
       currentFiltered = allRecipes.filter(recipe => {
         const matchesTag = activeTag === "All" || recipe.tags.includes(activeTag);
 
         const matchesQuery = !query || 
           recipe.title.toLowerCase().includes(query) || 
-          recipe.ingredients.toLowerCase().includes(query) ||
+          recipe.ingredients.toLowerCase().includes(query) || 
           recipe.utensils.toLowerCase().includes(query);
 
         return matchesTag && matchesQuery;
@@ -443,7 +729,7 @@
             <p class="text-stone-500 text-xs mt-1">Try another tag or adjust your search.</p>
           </div>
         `;
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
         return;
       }
 
@@ -473,7 +759,7 @@
               </span>
               <button 
                 onclick="openModal('${recipe.id}')" 
-                class="bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs"
+                class="bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs cursor-pointer"
               >
                 View &amp; Scale <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
               </button>
@@ -482,20 +768,18 @@
         `;
       }).join("");
 
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
-    // Modal Display & Dynamic Scaling
     window.openModal = function(id) {
       activeRecipe = allRecipes.find(r => r.id === id);
       if (!activeRecipe) return;
 
-      selectedServings = 2; // Baseline default
+      selectedServings = 2;
       
       document.getElementById("modalTitle").innerText = activeRecipe.title;
       document.getElementById("modalInstructions").innerText = activeRecipe.method;
 
-      // Utensils badges
       const utensilsContainer = document.getElementById("modalUtensils");
       const utensilItems = activeRecipe.utensils.split(/[,;\n]/).map(u => u.trim()).filter(Boolean);
       utensilsContainer.innerHTML = utensilItems.map(item => 
@@ -504,7 +788,6 @@
         </span>`
       ).join("");
 
-      // Render tags
       const tagsContainer = document.getElementById("modalTags");
       tagsContainer.innerHTML = activeRecipe.tags.map(t => 
         `<span class="bg-black/25 text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full">${t}</span>`
@@ -514,7 +797,7 @@
       renderScaledIngredients();
 
       document.getElementById("recipeModal").classList.remove("hidden");
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     };
 
     function renderScaledIngredients() {
@@ -561,68 +844,77 @@
         });
       });
 
-      document.getElementById("closeModal").addEventListener("click", () => {
-        document.getElementById("recipeModal").classList.add("hidden");
-      });
+      const closeModalBtn = document.getElementById("closeModal");
+      const recipeModal = document.getElementById("recipeModal");
 
-      document.getElementById("recipeModal").addEventListener("click", (e) => {
-        if (e.target.id === "recipeModal") {
-          document.getElementById("recipeModal").classList.add("hidden");
-        }
-      });
+      if (closeModalBtn && recipeModal) {
+        closeModalBtn.addEventListener("click", () => {
+          recipeModal.classList.add("hidden");
+        });
+
+        recipeModal.addEventListener("click", (e) => {
+          if (e.target.id === "recipeModal") {
+            recipeModal.classList.add("hidden");
+          }
+        });
+      }
     }
 
-    // 1-Click Copy Scaled Ingredients
     function setupCopyHandlers() {
       const copyBtn = document.getElementById("copyIngredientsBtn");
-      copyBtn.addEventListener("click", () => {
-        if (!activeRecipe) return;
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          if (!activeRecipe) return;
 
-        const baseServings = 2;
-        const ratio = selectedServings / baseServings;
-        const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
+          const baseServings = 2;
+          const ratio = selectedServings / baseServings;
+          const lines = activeRecipe.ingredients.split("\n").filter(l => l.trim().length > 0);
 
-        const scaledLines = lines.map(line => {
-          const match = line.match(/^([\d\.\/]+)\s*(.*)/);
-          if (match) {
-            let val = parseFloat(match[1]);
-            if (!isNaN(val)) {
-              let scaledVal = (val * ratio);
-              scaledVal = scaledVal % 1 === 0 ? scaledVal : scaledVal.toFixed(1);
-              return `${scaledVal} ${match[2]}`;
+          const scaledLines = lines.map(line => {
+            const match = line.match(/^([\d\.\/]+)\s*(.*)/);
+            if (match) {
+              let val = parseFloat(match[1]);
+              if (!isNaN(val)) {
+                let scaledVal = (val * ratio);
+                scaledVal = scaledVal % 1 === 0 ? scaledVal : scaledVal.toFixed(1);
+                return `${scaledVal} ${match[2]}`;
+              }
             }
-          }
-          return line;
+            return line;
+          });
+
+          const shoppingListText = `🛒 Shopping List for: ${activeRecipe.title} (${selectedServings} Servings)\n\n` +
+            scaledLines.map(item => `• ${item}`).join("\n") +
+            `\n\nUtensils Required: ${activeRecipe.utensils}` +
+            `\n\nSource: The 30 Minute Chef (Free Recipe Database)`;
+
+          navigator.clipboard.writeText(shoppingListText).then(() => {
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied!`;
+            copyBtn.classList.replace("bg-amber-500", "bg-emerald-600");
+            if (window.lucide) lucide.createIcons();
+
+            setTimeout(() => {
+              copyBtn.innerHTML = originalHTML;
+              copyBtn.classList.replace("bg-emerald-600", "bg-amber-500");
+              if (window.lucide) lucide.createIcons();
+            }, 2000);
+          });
         });
+      }
 
-        const shoppingListText = `🛒 Shopping List for: ${activeRecipe.title} (${selectedServings} Servings)\n\n` +
-          scaledLines.map(item => `• ${item}`).join("\n") +
-          `\n\nUtensils Required: ${activeRecipe.utensils}` +
-          `\n\nSource: The 30 Minute Chef (Free Recipe Database)`;
-
-        navigator.clipboard.writeText(shoppingListText).then(() => {
-          const original = copyBtn.innerHTML;
-          copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Copied!`;
-          copyBtn.classList.replace("bg-amber-500", "bg-emerald-600");
-          lucide.createIcons();
-
-          setTimeout(() => {
-            copyBtn.innerHTML = original;
-            copyBtn.classList.replace("bg-emerald-600", "bg-amber-500");
-            lucide.createIcons();
-          }, 2000);
-        });
-      });
-
-      // Copy page URL inside social drawer
       const copyUrlBtn = document.getElementById("copyAppUrlBtn");
-      copyUrlBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          const textEl = document.getElementById("copyAppUrlText");
-          textEl.innerText = "Copied to Clipboard!";
-          setTimeout(() => { textEl.innerText = "Copy Page Link"; }, 2000);
+      if (copyUrlBtn) {
+        copyUrlBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            const textEl = document.getElementById("copyAppUrlText");
+            if (textEl) {
+              textEl.innerText = "Copied to Clipboard!";
+              setTimeout(() => { textEl.innerText = "Copy Page Link"; }, 2000);
+            }
+          });
         });
-      });
+      }
     }
 
     function setupTagFilters() {
@@ -639,9 +931,12 @@
     }
 
     function setupSearch() {
-      document.getElementById("searchInput").addEventListener("input", () => {
-        renderGrid();
-      });
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.addEventListener("input", () => {
+          renderGrid();
+        });
+      }
     }
 
     function setupDrawerAndBannerHandlers() {
@@ -651,336 +946,40 @@
       const closeShareBtn = document.getElementById("closeShareDrawer");
 
       const openDrawer = () => {
-        shareDrawer.classList.remove("translate-x-full");
-        shareBackdrop.classList.remove("hidden");
+        if (shareDrawer) shareDrawer.classList.remove("translate-x-full");
+        if (shareBackdrop) shareBackdrop.classList.remove("hidden");
       };
 
       const closeDrawer = () => {
-        shareDrawer.classList.add("translate-x-full");
-        shareBackdrop.classList.add("hidden");
+        if (shareDrawer) shareDrawer.classList.add("translate-x-full");
+        if (shareBackdrop) shareBackdrop.classList.add("hidden");
       };
 
-      openShareBtn.addEventListener("click", openDrawer);
-      closeShareBtn.addEventListener("click", closeDrawer);
-      shareBackdrop.addEventListener("click", closeDrawer);
+      if (openShareBtn) openShareBtn.addEventListener("click", openDrawer);
+      if (closeShareBtn) closeShareBtn.addEventListener("click", closeDrawer);
+      if (shareBackdrop) shareBackdrop.addEventListener("click", closeDrawer);
 
-      // Affiliate banner toggles
+      // Guard checks to prevent runtime crash if legacy banner elements are absent
       const affiliateBanner = document.getElementById("affiliateBanner");
       const dismissAffiliateBtn = document.getElementById("dismissAffiliateBtn");
       const restoreAffiliateBtn = document.getElementById("restoreAffiliateBtn");
 
-      dismissAffiliateBtn.addEventListener("click", () => {
-        affiliateBanner.classList.add("translate-y-full");
-        restoreAffiliateBtn.classList.remove("hidden");
-        restoreAffiliateBtn.classList.add("flex");
-      });
+      if (dismissAffiliateBtn && affiliateBanner && restoreAffiliateBtn) {
+        dismissAffiliateBtn.addEventListener("click", () => {
+          affiliateBanner.classList.add("translate-y-full");
+          restoreAffiliateBtn.classList.remove("hidden");
+          restoreAffiliateBtn.classList.add("flex");
+        });
 
-      restoreAffiliateBtn.addEventListener("click", () => {
-        affiliateBanner.classList.remove("translate-y-full");
-        restoreAffiliateBtn.classList.add("hidden");
-        restoreAffiliateBtn.classList.remove("flex");
-      });
+        restoreAffiliateBtn.addEventListener("click", () => {
+          affiliateBanner.classList.remove("translate-y-full");
+          restoreAffiliateBtn.classList.add("hidden");
+          restoreAffiliateBtn.classList.remove("flex");
+        });
+      }
     }
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
-  <!-- Generic App Footer / Banner -->
-<footer style="
-    width: 100%;
-    text-align: center;
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    color: #9ca3af;
-    background-color: transparent;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-"><span>
-
-    Made for productivity and enjoyment &nbsp;|&nbsp; 
-    2026 &nbsp;|&nbsp; 
-        info.biz.developer@gmail.com
-</span>
-</footer>
-  <!-- ========================================== -->
-<!-- START: Affiliate Bottom Drawer Snippet     -->
-<!-- Paste this right before </body>            -->
-<!-- ========================================== -->
-<aside id="affiliate-drawer" class="aff-drawer-open" aria-label="Featured Tools & Apps">
-  <!-- Drawer Header / Toggle Button -->
-  <button id="aff-drawer-toggle" class="aff-drawer-toggle" aria-expanded="true" title="Toggle Featured Tools">
-    <span class="aff-toggle-title">
-      <svg class="aff-icon-sparkle" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-        <path d="M12 2l2.4 7.2L21.6 12l-7.2 2.4L12 21.6l-2.4-7.2L2.4 12l7.2-2.4z"/>
-      </svg>
-      Featured Creative Apps
-    </span>
-    <span class="aff-toggle-icon">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-    </span>
-  </button>
-
-  <!-- Drawer Body -->
-  <div class="aff-drawer-content">
-    <div class="aff-cards-grid">
-      
-      <!-- Link 1: conceptpromptgen.app -->
-      <a href="https://conceptpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-        <div class="aff-card-icon aff-grad-1">💡</div>
-        <div class="aff-card-body">
-          <span class="aff-card-title">ConceptPromptGen</span>
-          <span class="aff-card-desc">Generate rich creative prompts & ideas</span>
-        </div>
-        <span class="aff-card-arrow">↗</span>
-      </a>
-
-      <!-- Link 2: webtemplategen.app -->
-      <a href="https://webtemplategen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-        <div class="aff-card-icon aff-grad-2">🌐</div>
-        <div class="aff-card-body">
-          <span class="aff-card-title">WebTemplateGen</span>
-          <span class="aff-card-desc">Instant web layouts & code boilerplate</span>
-        </div>
-        <span class="aff-card-arrow">↗</span>
-      </a>
-
-      <!-- Link 3: characterpromptgen.app -->
-      <a href="https://characterpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-        <div class="aff-card-icon aff-grad-3">🎭</div>
-        <div class="aff-card-body">
-          <span class="aff-card-title">CharacterPromptGen</span>
-          <span class="aff-card-desc">Craft detailed character bios & roles</span>
-        </div>
-        <span class="aff-card-arrow">↗</span>
-      </a>
-
-      <!-- Link 4: designproflow.app -->
-      <a href="https://designproflow.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-        <div class="aff-card-icon aff-grad-4">⚡</div>
-        <div class="aff-card-body">
-          <span class="aff-card-title">DesignProFlow</span>
-          <span class="aff-card-desc">Supercharge your design workflow</span>
-        </div>
-        <span class="aff-card-arrow">↗</span>
-      </a>
-
-    </div>
-  </div>
-</aside>
-
-<style>
-  /* Scoped drawer styles to avoid conflicts */
-  #affiliate-drawer {
-    --aff-bg: #121318;
-    --aff-card-bg: rgba(255, 255, 255, 0.05);
-    --aff-card-hover: rgba(255, 255, 255, 0.1);
-    --aff-border: rgba(255, 255, 255, 0.1);
-    --aff-text-primary: #ffffff;
-    --aff-text-secondary: #9aa0a6;
-    --aff-accent: #6366f1;
-
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 95%;
-    max-width: 1040px;
-    z-index: 999999;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    box-sizing: border-box;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  #affiliate-drawer *,
-  #affiliate-drawer *::before,
-  #affiliate-drawer *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Slide-down closed state */
-  #affiliate-drawer.aff-drawer-closed {
-    transform: translate(-50%, calc(100% - 38px));
-  }
-
-  /* Header / Toggle button */
-  .aff-drawer-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--aff-bg);
-    border: 1px solid var(--aff-border);
-    border-bottom: none;
-    padding: 7px 18px;
-    border-radius: 12px 12px 0 0;
-    color: var(--aff-text-primary);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
-    outline: none;
-    user-select: none;
-    position: relative;
-    left: 20px;
-  }
-
-  .aff-drawer-toggle:hover {
-    background: #1a1c23;
-  }
-
-  .aff-toggle-title {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    letter-spacing: 0.2px;
-  }
-
-  .aff-icon-sparkle {
-    color: #f59e0b;
-  }
-
-  .aff-toggle-icon {
-    display: flex;
-    align-items: center;
-    transition: transform 0.3s ease;
-  }
-
-  #affiliate-drawer.aff-drawer-closed .aff-toggle-icon {
-    transform: rotate(180deg);
-  }
-
-  /* Content Container */
-  .aff-drawer-content {
-    background: var(--aff-bg);
-    border: 1px solid var(--aff-border);
-    border-bottom: none;
-    border-radius: 16px 16px 0 0;
-    padding: 16px 20px 20px;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
-  }
-
-  /* Grid of 4 links */
-  .aff-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-
-  /* Card link style */
-  .aff-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    background: var(--aff-card-bg);
-    border: 1px solid var(--aff-border);
-    border-radius: 12px;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .aff-card:hover {
-    background: var(--aff-card-hover);
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.25);
-  }
-
-  .aff-card-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .aff-grad-1 { background: linear-gradient(135deg, #f59e0b25, #f59e0b40); }
-  .aff-grad-2 { background: linear-gradient(135deg, #3b82f625, #3b82f640); }
-  .aff-grad-3 { background: linear-gradient(135deg, #ec489925, #ec489940); }
-  .aff-grad-4 { background: linear-gradient(135deg, #10b98125, #10b98140); }
-
-  .aff-card-body {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    flex: 1;
-  }
-
-  .aff-card-title {
-    color: var(--aff-text-primary);
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .aff-card-desc {
-    color: var(--aff-text-secondary);
-    font-size: 11px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
-
-  .aff-card-arrow {
-    color: var(--aff-text-secondary);
-    font-size: 14px;
-    transition: transform 0.2s ease, color 0.2s ease;
-  }
-
-  .aff-card:hover .aff-card-arrow {
-    transform: translate(2px, -2px);
-    color: var(--aff-text-primary);
-  }
-
-  /* Responsive breakpoints */
-  @media (max-width: 900px) {
-    .aff-cards-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 520px) {
-    #affiliate-drawer {
-      width: 100%;
-    }
-    .aff-cards-grid {
-      grid-template-columns: 1fr;
-      max-height: 240px;
-      overflow-y: auto;
-    }
-    .aff-drawer-toggle {
-      left: 12px;
-    }
-  }
-</style>
-
-<script>
-  (function() {
-    const drawer = document.getElementById('affiliate-drawer');
-    const toggleBtn = document.getElementById('aff-drawer-toggle');
-
-    if (toggleBtn && drawer) {
-      toggleBtn.addEventListener('click', function() {
-        const isClosed = drawer.classList.toggle('aff-drawer-closed');
-        drawer.classList.toggle('aff-drawer-open', !isClosed);
-        toggleBtn.setAttribute('aria-expanded', String(!isClosed));
-      });
-    }
-  })();
-</script>
-<!-- ========================================== -->
-<!-- END: Affiliate Bottom Drawer Snippet       -->
-<!-- ========================================== -->
-  <!-- Affiliate Slide-Out Tab -->
-
 </body>
-  
 </html>
