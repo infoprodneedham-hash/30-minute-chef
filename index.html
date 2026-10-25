@@ -981,5 +981,46 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+  <!-- Slide-Out Drawer Widget -->
+<aside class="affiliate-drawer-wrap" id="affiliateDrawer" aria-label="Featured Tools">
+  <div class="affiliate-drawer">
+    <div class="drawer-header">
+      <p class="drawer-title">Recommended Tools</p>
+      <button class="dismiss-btn" id="dismissBtn" aria-label="Dismiss drawer" title="Dismiss">&times;</button>
+    </div>
+
+    <div class="link-list">
+      <a href="https://translateforme.app" target="_blank" rel="noopener sponsored" class="affiliate-link-card">
+        <strong>TranslateForMe</strong>
+        <span>Fast, seamless language translation and multilingual tools.</span>
+      </a>
+
+      <a href="https://wanderersmate.app" target="_blank" rel="noopener sponsored" class="affiliate-link-card">
+        <strong>WanderersMate</strong>
+        <span>Essential travel companion for itineraries, navigation, and tips.</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Outer toggle tab -->
+  <button class="drawer-tab" id="drawerTab" aria-label="Toggle drawer" title="Slide drawer">
+    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+</aside>
+
+<script>
+  const drawerWrap = document.getElementById('affiliateDrawer');
+  const drawerTab = document.getElementById('drawerTab');
+  const dismissBtn = document.getElementById('dismissBtn');
+
+  function toggleDrawer() {
+    drawerWrap.classList.toggle('collapsed');
+  }
+
+  drawerTab.addEventListener('click', toggleDrawer);
+  dismissBtn.addEventListener('click', toggleDrawer);
+</script>
 </body>
 </html>
